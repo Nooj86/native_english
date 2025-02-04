@@ -8,22 +8,27 @@
         body { font-family: Arial, sans-serif; text-align: center; padding: 30px; }
         .container { max-width: 700px; margin: auto; }
         img { max-width: 100%; height: auto; border-radius: 10px; }
-        .button, .form-button { display: inline-block; margin-top: 20px; padding: 10px 20px; background: green; color: white; text-decoration: none; border-radius: 5px; }
-    input[type="text"], input[type="email"], input[type="tel"] {
-        width: 100%; /* Makes the input fields full-width */
-        padding: 12px; /* Adds padding for a larger touch area */
-        margin-top: 10px; /* Adds spacing between fields */
-        border-radius: 5px; /* Rounded corners */
-        border: 1px solid #ddd; /* Adds a border */
-    }
-    textarea {
-        width: 100%; /* Makes the textarea full-width */
-        height: 150px; /* Increases the height of the textarea */
-        padding: 12px; /* Adds padding for a larger touch area */
-        margin-top: 10px; /* Adds spacing between fields */
-        border-radius: 5px; /* Rounded corners */
-        border: 1px solid #ddd; /* Adds a border */
-    }
+        .button, .form-button { 
+            display: inline-block; 
+            margin-top: 20px; 
+            padding: 10px 20px; 
+            background: green; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            border: none; /* Ensures buttons look uniform */
+            cursor: pointer; /* Improves UX */
+            font-size: 16px; /* Matches text size */
+        }
+        input[type="text"], input[type="email"], input[type="tel"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px; /* Improves readability */
+        }
+        textarea { height: 150px; }
     </style>
 </head>
 <body>
@@ -56,18 +61,45 @@
         
         <h2>📩 Contacto</h2>
         <p>Reserva una clase de prueba o pregunta cualquier duda:</p>
-        <form action="https://formsubmit.co/giddings.nicholas@gmail.com" method="POST">
-            <input type="text" name="name" placeholder="Tu Nombre" required><br>
-            <input type="email" name="email" placeholder="Tu Email" required><br>
-            <input type="tel" name="contact" placeholder="Tu Contacto" required><br>
-            <textarea name="message" placeholder="Tu Mensaje" required></textarea><br>
-            <input type="hidden" name="_next" value="https://your-correct-site-url.com">
+        <form id="contact-form" action="https://formsubmit.co/giddings.nicholas@gmail.com" method="POST">
+            <input type="text" name="name" placeholder="Tu Nombre" required>
+            <input type="email" name="email" placeholder="Tu Email" required>
+            <input type="tel" name="contact" placeholder="Tu Contacto" required>
+            <textarea name="message" placeholder="Tu Mensaje" required></textarea>
             <input type="hidden" name="_captcha" value="false">
-            
+    
             <button type="submit" class="form-button">Enviar Mensaje</button>
         </form>
-        
+
+        <!-- Success message (hidden by default) -->
+        <p id="success-message" style="display: none; font-size: 18px; color: green; margin-top: 20px;">
+            ✅ ¡Formulario enviado con éxito! Gracias por tu mensaje.
+        </p>
+
         <a class="button" href="https://wa.me/34610919539" target="_blank">💬 Chatear por WhatsApp</a>
     </div>
+
+    <script>
+        document.getElementById("contact-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevents page reload
+
+            // Send form data using Fetch API
+            fetch(this.action, {
+                method: this.method,
+                body: new FormData(this),
+            }).then(response => {
+                if (response.ok) {
+                    // Hide the form
+                    document.getElementById("contact-form").style.display = "none";
+                    // Show the success message
+                    document.getElementById("success-message").style.display = "block";
+                } else {
+                    alert("Hubo un error al enviar el formulario. Inténtalo de nuevo.");
+                }
+            }).catch(error => {
+                alert("Error de conexión. Inténtalo más tarde.");
+            });
+        });
+    </script>
 </body>
 </html>
