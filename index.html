@@ -77,7 +77,7 @@
   		  <h2 class="major">Contacto</h2>
   		  <p>Reserva una clase de prueba o pregunta cualquier duda:</p>
 
-  		  <form id="contact-form" action="https://formsubmit.co/c3b733b002f82b9e3f89cbae6a824b91" method="POST">
+  		  <form id="contact-form" action="https://usebasin.com/f/4782c5399abb" method="POST">
     		<div class="fields">
       		  <div class="field half">
         	  	<label for="name">Nombre</label>
@@ -127,6 +127,30 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+    document.getElementById("contact-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      fetch(this.action, {
+        method: this.method,
+        body: new FormData(this),
+        headers: {
+            'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+            document.getElementById("contact-form").style.display = "none";
+            document.getElementById("success-message").style.display = "block";
+        } else {
+            alert("Hubo un error al enviar el formulario. Inténtalo de nuevo.");
+        }
+      })
+      .catch(error => {
+        alert("Error de conexión. Inténtalo más tarde.");
+      });
+    });
+    </script>
 	
 	<!-- WhatsApp floating button -->
 	<a href="https://wa.me/34610919539" target="_blank" id="whatsapp-button">
